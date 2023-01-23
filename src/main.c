@@ -1,16 +1,15 @@
 #include "operations.h"
-#include "charmachine.h"
-#include "wordmachine.h"
 #include "boolean.h"
+#include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
 
-Word currentWord;
-boolean endWord;
-
 int main() {
+    clock_t start, end;
+    float execution_time;
     FILE *fptr;
+    FILE *pita;
     boolean flag;
     char ops[] = {'+', '-', '/', '*'};
     char op1, op2, op3, enter;
@@ -18,8 +17,10 @@ int main() {
     char txt[50];
     char *path;
     char solutions[200][200];
-    Word num1, num2, num3, num4;
-    int i, j, k, x, y, z, a, b, c, d, count, count1, pilihan;
+    char num[10];
+    char num_array[10][10];
+    // Word num1, num2, num3, num4;
+    int i, j, k, x, y, z, a, b, c, d, count, count1, pilihan, retval;
     int nums[] = {0, 0, 0, 0};
     int buffer3[] = {0, 0, 0};
     int buffer2[] = {0, 0};
@@ -30,6 +31,15 @@ int main() {
     printf("2. Masukan manual dari pengguna/user\n");
     printf(">> ");
     scanf("%d", &pilihan);
+
+    while (pilihan != 1 && pilihan != 2) {
+        printf("Masukan tidak valid! Hanya masukkan 1 atau 2!\n");
+        printf("Pilih cara menentukan 4 angka: \n");
+        printf("1. Program otomatis mengenerate angka\n");
+        printf("2. Masukan manual dari pengguna/user\n");
+        printf(">> ");
+        scanf("%d", &pilihan);
+    }
 
     if (pilihan == 1) {
         srand((unsigned int) time(NULL));
@@ -43,94 +53,70 @@ int main() {
         flag = true;
         printf("Masukkan 4 buah angka: \n");
         printf(">> ");
-        scanf("%c", &enter);
-        STARTWORD();
         count1 = 0;
-        while (!endWord) {
-            if (!isInt(currentWord) && !isAlphabet(currentWord)) {
+        while (count1 < 4 && scanf("%s", num) != EOF) {
+            strcpy(num_array[count1], num);
+            count1++;
+        }
+
+        for (int count2 = 0; count2 < 4; count2++) {
+            if (!isInt(num_array[count2]) && !isAlphabet(num_array[count2])) {
                 flag = false;
             }
-            if (count1 == 0) {
-                num1 = currentWord;
-            } else if (count1 == 1) {
-                num2 = currentWord;
-            } else if (count1 == 2) {
-                num3 = currentWord;
-            } else if (count1 == 3) {
-                num4 = currentWord;
-            }
-            count1++;
-            ADVWORD();
-        }
-        if (count1 > 4) {
-            flag = false;
         }
 
         while (!flag) {
             flag = true;
-            count1 = 0;
-            // scanf("%c", &enter);
-            printf("Masukan tidak sesuai!\n");
-            printf("Masukan hanya huruf (A, J, Q, K) atau angka[2-10]!\n");
+            printf("Masukan tidak valid, masukkan hanya angka (2-10) atau huruf (A, J, Q, K)!\n");
             printf("Masukkan 4 buah angka: \n");
             printf(">> ");
-            currentChar = ' ';
-            STARTWORD();
-            while (!endWord) {
-                if (!isInt(currentWord) && !isAlphabet(currentWord)) {
+            count1 = 0;
+            while (count1 < 4 && scanf("%s", num) != EOF) {
+                strcpy(num_array[count1], num);
+                count1++;
+            }
+            for (int count2 = 0; count2 < 4; count2++) {
+                if (!isInt(num_array[count2]) && !isAlphabet(num_array[count2])) {
                     flag = false;
                 }
-                if (count1 == 0) {
-                    num1 = currentWord;
-                } else if (count1 == 1) {
-                    num2 = currentWord;
-                } else if (count1 == 2) {
-                    num3 = currentWord;
-                } else if (count1 == 3) {
-                    num4 = currentWord;
-                }
-                count1++;
-                ADVWORD();
-            }
-            if (count1 > 3) {
-                flag = false;
             }
         }
 
-        if (isAlphabet(num1)) {
-            nums[0] = transformToNumber(num1);
+        if (isAlphabet(num_array[0])) {
+            nums[0] = transformToNumber(num_array[0]);
         } else { 
-            nums[0] = transformToInt(num1);
+            nums[0] = transformToInt(num_array[0]);
         }
-        if (isAlphabet(num2)) {
-            nums[1] = transformToNumber(num2);
+        if (isAlphabet(num_array[1])) {
+            nums[1] = transformToNumber(num_array[1]);
         } else { 
-            nums[1] = transformToInt(num2);
+            nums[1] = transformToInt(num_array[1]);
         }
-        if (isAlphabet(num3)) {
-            nums[2] = transformToNumber(num3);
+        if (isAlphabet(num_array[2])) {
+            nums[2] = transformToNumber(num_array[2]);
         } else { 
-            nums[2] = transformToInt(num3);
+            nums[2] = transformToInt(num_array[2]);
         }
-        if (isAlphabet(num4)) {
-            nums[3] = transformToNumber(num4);
+        if (isAlphabet(num_array[3])) {
+            nums[3] = transformToNumber(num_array[3]);
         } else { 
-            nums[3] = transformToInt(num4);
+            nums[3] = transformToInt(num_array[3]);
         }
         printf("4 angka masukan pengguna: ");
         printf("%d %d %d %d\n", nums[0], nums[1], nums[2], nums[3]);
     }
 
+    start = clock();
     count = 0;
     for (i = 0; i < 4; i++) {
         a = nums[i];
-        remove_element(nums, a, buffer3, 4);
+        remove_element(nums, i, buffer3, 4);
         for (j = 0; j < 3; j++) {
             b = buffer3[j];
-            remove_element(buffer3, b, buffer2, 3);
+            remove_element(buffer3, j, buffer2, 3);
             for (k = 0; k < 2; k++) {
                 c = buffer2[k];
-                remove_element(buffer2, c, buffer, 2);
+                remove_element(buffer2, k, buffer, 2);
                 d = buffer[0];
                 for (x = 0; x < 4; x++) {
                     op1 = ops[x];
@@ -164,15 +150,19 @@ int main() {
             }
         }
     }
+    end = clock();
+    execution_time = ((float)(end - start))/CLOCKS_PER_SEC;
 
     if (count == 0) {
-        printf("Tidak dapat menemukan solusi:(");
+        printf("Tidak dapat menemukan solusi:(\n");
+        printf("Execution time: %f seconds\n", execution_time);
     } else {
-        printf("Banyaknya solusi: %d\n", count);
+        printf("Banyaknya solusi yang ditemukan: %d\n", count);
         for (int i = 0; i < count; i++) {
             printf("%d. ", i+1);
             printf("%s", solutions[i]);
         }
+        printf("Execution time: %f seconds\n", execution_time);
         printf("Apakah ingin menyimpan solusi?\n");
         printf("1. Ya\n");
         printf("2. Tidak\n");
