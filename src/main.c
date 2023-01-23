@@ -12,7 +12,7 @@ int main() {
     FILE *pita;
     boolean flag;
     char ops[] = {'+', '-', '/', '*'};
-    char op1, op2, op3, enter;
+    char op1, op2, op3, enter, ch;
     char file[100];
     char txt[50];
     char *path;
@@ -20,7 +20,7 @@ int main() {
     char num[10];
     char num_array[10][10];
     // Word num1, num2, num3, num4;
-    int i, j, k, x, y, z, a, b, c, d, count, count1, pilihan, retval;
+    int i, j, k, x, y, z, a, b, c, d, count, count1, pilihan, retval, count_i, count_j;
     int nums[] = {0, 0, 0, 0};
     int buffer3[] = {0, 0, 0};
     int buffer2[] = {0, 0};
@@ -59,20 +59,41 @@ int main() {
         printf("Masukkan 4 buah angka: \n");
         printf(">> ");
         count1 = 0;
-        while (count1 < 4 && scanf("%s", num) != EOF) {
-            strcpy(num_array[count1], num);
-            count1++;
+        count_i = 0;
+        count_j = 0;
+        scanf("%c", &enter);
+        ch = getchar();
+        while (ch != '\n') {
+            if (ch == ' ') {
+                num_array[count_i][count_j] = '\0';
+                count_i++;
+                count_j = 0; 
+            } else {
+                num_array[count_i][count_j] = ch;
+                count_j++;
+            }
+            ch = getchar();
         }
 
-        for (int count2 = 0; count2 < 4; count2++) {
-            if (!isInt(num_array[count2]) && !isAlphabet(num_array[count2])) {
-                flag = false;
+        if (count_i > 3) {
+            printf("Hanya masukan sejumlah 4 buah angka!\n");
+            flag = false;
+        }
+
+
+        if (flag) {
+            for (int count2 = 0; count2 < 4; count2++) {
+                if (!isInt(num_array[count2]) && !isAlphabet(num_array[count2])) {
+                    flag = false;
+                }
+            }
+            if (!flag) {
+                printf("Masukan tidak valid, masukkan hanya angka (2-10) atau huruf (A, J, Q, K)!\n");
             }
         }
 
         while (!flag) {
             flag = true;
-            printf("Masukan tidak valid, masukkan hanya angka (2-10) atau huruf (A, J, Q, K)!\n");
             printf("Masukkan 4 buah angka: \n");
             printf(">> ");
             count1 = 0;
@@ -84,6 +105,9 @@ int main() {
                 if (!isInt(num_array[count2]) && !isAlphabet(num_array[count2])) {
                     flag = false;
                 }
+            }
+            if (!flag) {
+                printf("Masukan tidak valid, masukkan hanya angka (2-10) atau huruf (A, J, Q, K)!\n");
             }
         }
 
