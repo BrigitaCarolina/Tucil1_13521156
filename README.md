@@ -3,7 +3,7 @@
 This program uses C language with the Brute Force algorithm to find all the solutions of make it 24 game using 4 random numbers generate by the program or by the input of the user
 
 ## Requirement
-
+GCC compiler version >= 6.3.0
 
 ## How to Run The Program
 - Clone this repository
