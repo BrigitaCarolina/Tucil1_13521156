@@ -105,15 +105,3 @@ int transformToNumber(char num[]) {
         return 13;
     }
 }
-
-// int read_word(char s[]) {
-//     char c;
-//     int i = 0;
-//     while ((c = getchar()) != EOF && c != ' ' && c != '\n') {
-//         s[i] = c;
-//         scanf("%c", &c);
-//         i++;
-//     }
-//     s[i] = '\0';
-//     return i;
-// }

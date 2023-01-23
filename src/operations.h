@@ -29,5 +29,3 @@ int transformToNumber(char num[]);
    J = 11 
    Q = 12
    K = 13 */
-
-int read_word(char s[]);

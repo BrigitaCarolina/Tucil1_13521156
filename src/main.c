@@ -26,6 +26,11 @@ int main() {
     int buffer2[] = {0, 0};
     int buffer[] = {0};
 
+    printf("**********************************\n");
+    printf("*                                *\n");
+    printf("*         24 GAME SOLVER         *\n");
+    printf("*                                *\n");
+    printf("**********************************\n");
     printf("Pilih cara menentukan 4 angka: \n");
     printf("1. Program otomatis mengenerate angka\n");
     printf("2. Masukan manual dari pengguna/user\n");
