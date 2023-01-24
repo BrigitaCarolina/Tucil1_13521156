@@ -19,7 +19,6 @@ int main() {
     char solutions[200][200];
     char num[10];
     char num_array[10][10];
-    // Word num1, num2, num3, num4;
     int i, j, k, x, y, z, a, b, c, d, count, count1, pilihan, retval, count_i, count_j;
     int nums[] = {0, 0, 0, 0};
     int buffer3[] = {0, 0, 0};
@@ -76,7 +75,7 @@ int main() {
         }
 
         if (count_i > 3) {
-            printf("Hanya masukan sejumlah 4 buah angka!\n");
+            printf("Hanya masukan sejumlah 4 buah angka atau huruf!\n");
             flag = false;
         }
 
@@ -88,7 +87,7 @@ int main() {
                 }
             }
             if (!flag) {
-                printf("Masukan tidak valid, masukkan hanya angka (2-10) atau huruf (A, J, Q, K)!\n");
+                printf("Masukan tidak valid, masukkan hanya angka atau huruf (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K)!\n");
             }
         }
 
@@ -107,7 +106,7 @@ int main() {
                 }
             }
             if (!flag) {
-                printf("Masukan tidak valid, masukkan hanya angka (2-10) atau huruf (A, J, Q, K)!\n");
+                printf("Masukan tidak valid, masukkan hanya angka atau huruf (A, 2, 3, 4, 5, 6, 7, 8, 9, 10, J, Q, K)!\n");
             }
         }
 
@@ -183,7 +182,7 @@ int main() {
     execution_time = ((float)(end - start))/CLOCKS_PER_SEC;
 
     if (count == 0) {
-        printf("Tidak dapat menemukan solusi:(\n");
+        printf("Tidak ada solusi!\n");
         printf("Execution time: %f seconds\n", execution_time);
     } else {
         printf("Banyaknya solusi yang ditemukan: %d\n", count);
